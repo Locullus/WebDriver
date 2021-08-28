@@ -13,3 +13,5 @@ check_isfile('chromedriver.exe')
 # on lance une session
 url = "http://example.org/"
 test = Webdriver(url)
+
+# TODO : sur cette base on va pouvoir intégrer le module database pour ensuite lancer des sessions sur Boursorama
