@@ -15,3 +15,4 @@ url = "http://example.org/"
 test = Webdriver(url)
 
 # TODO : sur cette base on va pouvoir intégrer le module database pour ensuite lancer des sessions sur Boursorama
+# TODO : on intégrera tout ceci dans une application flask avec une interface graphique correcte
