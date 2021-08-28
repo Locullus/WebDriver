@@ -1,1 +1,3 @@
 /WebDriverUpdate/
+.idea/
+WebDriver/__pycache__/
