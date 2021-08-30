@@ -10,17 +10,18 @@ from WebDriver import tools_functions
 
 class TestChromedriver(unittest.TestCase):
 
+    # on vérifie la présence de fichiers
     def test_isfile(self):
         self.assertTrue(os.path.isfile('chromedriver.exe'))     # true
         self.assertFalse(os.path.isfile('chromedriver.zip'))     # false
 
+    # on vérifie que la fonction retourne bien un nombre à deux chiffres
     def test_get_version(self):
-        self.assertEqual(tools_functions.get_version(), "92",
-                         'format incorrect')
+        self.assertRegex(tools_functions.get_version(), "\\d{2}")
 
+    # on vérifie que la fonction retourne bien un nombre à deux chiffres
     def test_check_driver(self):
-        self.assertEqual(tools_functions.check_driver(), "92",
-                         'mauvais numéro de version')
+        self.assertRegex(tools_functions.get_version(), "\\d{2}")
 
 
 if __name__ == '__main__':
