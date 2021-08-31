@@ -4,6 +4,7 @@ import pickle
 import requests
 from requests_html import HTMLSession
 from selenium.webdriver import Chrome
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from zipfile import ZipFile
@@ -107,20 +108,9 @@ def get_driver(current_version):
 
 
 def check_window(driver):
-    # on identifie la fenêtre principale pour plus tard
-    main_window = driver.current_window_handle
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable(By.ID, ""))
+    driver.find_element_by_xpath('//*[@id="popin_tc_privacy_button"]').click()
 
-    # on attend l'apparition de la fenêtre des cookies
-    if len(driver.window_handles) == 1:
-        print("pas de cookies")
-        # Wait for the new window or tab
-        WebDriverWait(driver, 10).until(EC.number_of_windows_to_be(2))
-    else:
-        for window_handle in driver.window_handles:
-            if window_handle == main_window:
-                driver.switch_to.window(window_handle)
-                print("la fenêtre des cookies est apparue")
-                driver.find_element_by_xpath('//*[@id="popin_tc_privacy_button"]').click()
 
 """
 tout fonctionne jusqu'au contôle de la page courante, où l'ouverture de la seconde page n'est pas détéctée.
