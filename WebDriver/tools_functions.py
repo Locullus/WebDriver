@@ -109,4 +109,4 @@ def get_driver(current_version):
 
 def close_pop_up(driver):
     """ on attend l'apparition de la fenêtre des cookies pour la fermer"""
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
+    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
