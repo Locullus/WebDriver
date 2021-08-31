@@ -6,7 +6,7 @@ import time
 
 
 class Webdriver:
-    def __init__(self, url):
+    def __init__(self, url: str):
         self.url = url
         self.options = Options()
         self.options.headless = False
