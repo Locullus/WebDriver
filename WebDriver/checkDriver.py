@@ -11,6 +11,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import SessionNotCreatedException
 # import time
 
+from classWebdriver import Webdriver
 from tools_functions import check_isfile, close_pop_up
 
 # on charge les variables d'environnement
@@ -36,7 +37,7 @@ try:
     with Chrome(executable_path="chromedriver.exe", options=options) as driver:
 
         # on passe la fenêtre en plein écran
-        driver.maximize_window()
+        # driver.maximize_window()
 
         # on lance la requête
         driver.get(url)
@@ -69,10 +70,8 @@ except SessionNotCreatedException:
 # TODO : une fenêtre de cookies s'ouvre et vient perturber le click sur le menu. Il faut gérer sa fermeture
 
 
-"""
-# on lance une session
+# on peut aussi lancer une session en utilisant la classe Webdriver
 driver = Webdriver("http://www.python.org")
-"""
 
 # TODO : sur cette base on va pouvoir intégrer le module database pour ensuite lancer des sessions sur Boursorama
 # TODO : on intégrera tout ceci dans une application flask avec une interface graphique correcte
