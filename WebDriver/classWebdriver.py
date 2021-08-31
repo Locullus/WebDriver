@@ -1,3 +1,7 @@
+"""
+classe qui gère les sesion du webdriver en mode visuel
+"""
+
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys

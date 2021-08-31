@@ -2,6 +2,7 @@ import os
 import re
 import pickle
 import requests
+import selenium.common.exceptions
 from requests_html import HTMLSession
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
@@ -34,8 +35,16 @@ def check_isfile(file):
 
 def get_version():
     """récupération du numéro de version du chrome local"""
+
+    # je spécifie 2 chemins d'accès possible pour chrome
     google_path = "C:/Program Files/Google/Chrome/Application"
-    chrome_version = os.listdir(google_path)[0][:2]
+    google_path2 = "C:/Program Files (x86)/Google/Chrome/Application"
+
+    # si le premier chemin échoue, on essaie le second
+    try:
+        chrome_version = os.listdir(google_path)[0][:2]
+    except FileNotFoundError:
+        chrome_version = os.listdir(google_path2)[0][:2]
     return chrome_version
 
 
@@ -109,4 +118,7 @@ def get_driver(current_version):
 
 def close_pop_up(driver):
     """ on attend l'apparition de la fenêtre des cookies pour la fermer"""
-    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
+    try:
+        WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
+    except selenium.common.exceptions.WebDriverException as e:
+        print(e)

@@ -5,7 +5,7 @@ fichier de test qui vérifie certaines conditions dans le répertoire courant
 import unittest
 import os
 
-from WebDriver import tools_functions
+import tools_functions
 
 
 class TestChromedriver(unittest.TestCase):
