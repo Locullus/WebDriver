@@ -10,7 +10,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import SessionNotCreatedException
 import time
 
-from tools_functions import check_isfile, check_window
+from tools_functions import check_isfile, close_pop_up
 
 # on charge les variables d'environnement
 load_dotenv()
@@ -49,8 +49,8 @@ try:
 
         driver.implicitly_wait(2)  # on peut aussi attendre un laps de temps déterminé avec : sleep(2)
 
-        # on attend l'apparition de la fenêtre des cookies
-        check_window(driver)
+        # on gère la pop_up des cookies
+        close_pop_up(driver)
 
         driver.find_element_by_class_name("menu-name").click()
         driver.implicitly_wait(2)

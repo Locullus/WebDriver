@@ -107,12 +107,6 @@ def get_driver(current_version):
         print("fichier inexistant : impossible de supprimer 'chromedriver.zip")
 
 
-def check_window(driver):
-    WebDriverWait(driver, 10).until(EC.element_to_be_clickable(By.ID, ""))
-    driver.find_element_by_xpath('//*[@id="popin_tc_privacy_button"]').click()
-
-
-"""
-tout fonctionne jusqu'au contôle de la page courante, où l'ouverture de la seconde page n'est pas détéctée.
-Il faut donc comprendre le fonctionnement de window_handle
-"""
+def close_pop_up(driver):
+    """ on attend l'apparition de la fenêtre des cookies pour la fermer"""
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
