@@ -8,16 +8,32 @@ import os
 from dotenv import load_dotenv
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import SessionNotCreatedException
-# import time
+import time
 
 from classWebdriver import Webdriver
-from tools_functions import check_isfile, close_pop_up
+from tools_functions import check_isfile, close_pop_up, browser
 
 # on charge les variables d'environnement
 load_dotenv()
 username = os.getenv("USER")
 password = os.getenv("PASSWORD")
+
+my_browser = browser()
+try:
+    my_browser.get("http://www.python.org")
+    assert "Python" in my_browser.title
+    elem = my_browser.find_element_by_name("q")
+    elem.clear()
+    elem.send_keys("pycon")
+    elem.send_keys(Keys.RETURN)
+    assert "No results found." not in my_browser.page_source
+    time.sleep(10)
+except SessionNotCreatedException:
+    print("problème avec la version actuelle du chromedriver...")
+my_browser.close()
+
 
 # configuration du webdriver
 options = Options()

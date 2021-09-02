@@ -5,6 +5,7 @@ import requests
 import selenium.common.exceptions
 from requests_html import HTMLSession
 from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -122,3 +123,11 @@ def close_pop_up(driver):
         WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
     except selenium.common.exceptions.WebDriverException as e:
         print(e)
+
+
+def browser(headless: bool = False):
+    # configuration du webdriver
+    options = Options()
+    options.headless = headless  # configuration du driver en mode visible ou headless
+    options.page_load_strategy = 'normal'
+    return Chrome(executable_path="chromedriver.exe", options=options)
