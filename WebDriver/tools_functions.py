@@ -126,6 +126,7 @@ def close_pop_up(driver):
 
 
 def browser(headless: bool = False):
+    """fonction qui configure le driver en mode headless ou visible et qui fournit le path"""
     # configuration du webdriver
     options = Options()
     options.headless = headless  # configuration du driver en mode visible ou headless

@@ -6,8 +6,6 @@ puis lance une session du driver afin de récupérer la liste des tournois où j
 
 import os
 from dotenv import load_dotenv
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import SessionNotCreatedException
 import time
@@ -20,6 +18,7 @@ load_dotenv()
 username = os.getenv("USER")
 password = os.getenv("PASSWORD")
 
+# initialisation du webdriver. L'objet récupéré est un webdriver configuré auquel on peut préciser le mode de visibilité
 my_browser = browser()
 try:
     my_browser.get("http://www.python.org")
@@ -34,12 +33,6 @@ except SessionNotCreatedException:
     print("problème avec la version actuelle du chromedriver...")
 my_browser.close()
 
-
-# configuration du webdriver
-options = Options()
-options.headless = True     # configuration du driver en mode non visible
-options.page_load_strategy = 'normal'
-
 # on s'assure que le chromedriver est bien installé et à jour
 check_isfile('chromedriver.exe')
 
@@ -48,37 +41,38 @@ url = "https://auth.fft.fr/auth/realms/master/protocol/openid-connect/auth?" \
       "client_id=FED_MET&response_type=code&scope=openid&redirect_uri=" \
       "https://tenup.fft.fr/user-auth/process"
 
+# on initialise le driver
+driver = browser(headless=True)
+
 # connection au site de la FFT
 try:
-    with Chrome(executable_path="chromedriver.exe", options=options) as driver:
+    # on passe la fenêtre en plein écran
+    driver.maximize_window()
 
-        # on passe la fenêtre en plein écran
-        # driver.maximize_window()
+    # on lance la requête
+    driver.get(url)
 
-        # on lance la requête
-        driver.get(url)
+    # on attend que la page soit chargée
+    driver.implicitly_wait(2)
 
-        # on attend que la page soit chargée
-        driver.implicitly_wait(2)
+    # on s'identifie pour accéder au compte
+    driver.find_element_by_id("username").send_keys(username)
+    driver.find_element_by_id("password").send_keys(password)
+    driver.find_element_by_xpath("//*[@id='kc-form']/div[3]/button").click()
 
-        # on s'identifie pour accéder au compte
-        driver.find_element_by_id("username").send_keys(username)
-        driver.find_element_by_id("password").send_keys(password)
-        driver.find_element_by_xpath("//*[@id='kc-form']/div[3]/button").click()
+    driver.implicitly_wait(2)  # on peut aussi attendre un laps de temps déterminé avec : sleep(2)
 
-        driver.implicitly_wait(2)  # on peut aussi attendre un laps de temps déterminé avec : sleep(2)
+    # on ferme la pop_up des cookies
+    close_pop_up(driver)
 
-        # on ferme la pop_up des cookies
-        close_pop_up(driver)
+    driver.find_element_by_class_name("menu-name").click()
+    driver.implicitly_wait(2)
 
-        driver.find_element_by_class_name("menu-name").click()
-        driver.implicitly_wait(2)
-
-        driver.find_element_by_xpath(
-            '//*[@id="page-header"]/div[2]/div/nav/ul/li[5]/div/div/ul/li[3]/ul/li[4]/a').click()
-        result = driver.find_element_by_xpath('//*[@id="block-system-main"]/div/div/div/div[1]').text
-        print(result)
-        # time.sleep(10)
+    driver.find_element_by_xpath(
+        '//*[@id="page-header"]/div[2]/div/nav/ul/li[5]/div/div/ul/li[3]/ul/li[4]/a').click()
+    result = driver.find_element_by_xpath('//*[@id="block-system-main"]/div/div/div/div[1]').text
+    print(result)
+    # time.sleep(10)
 except SessionNotCreatedException:
     print("problème avec la version actuelle du chromedriver...")
 
