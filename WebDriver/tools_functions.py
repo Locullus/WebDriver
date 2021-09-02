@@ -26,8 +26,8 @@ def get_datas(my_file):
     try:
         with open(my_file, "rb") as file:
             get_data = pickle.Unpickler(file)
-            result = get_data.load()
-            return result
+            return get_data.load()
+
     except (FileNotFoundError, EOFError):   # EOFError concerne les fichiers existants mais vides
         print("fichier n'existe pas")
         return None
