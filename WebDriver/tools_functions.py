@@ -21,18 +21,50 @@ def save_datas(my_file, data):
         write_data.dump(data)
 
 
+def get_datas(my_file):
+    """ fonction qui récupère les données d'un fichier s'il existe et qui le crée sinon """
+    try:
+        with open(my_file, "rb") as file:
+            get_data = pickle.Unpickler(file)
+            result = get_data.load()
+            return result
+    except (FileNotFoundError, EOFError):   # EOFError concerne les fichiers existants mais vides
+        print("fichier n'existe pas")
+        return None
+
+
 def check_isfile(file):
 
     """on vérifie si le chromedriver existe dans le répertoire courant pour en connaître la version"""
 
     chrome_version = get_version()
-    # print(f"la version de chrome est {chrome_version}")
+    print(f"la version de chrome est {chrome_version}")
+
+    # si le fichier existe :
     if os.path.isfile(file):
-        version = check_driver()
-        # print(f"la version du chromedriver est {version}")
+
+        # on vérifie si son numéro de version est enregistré
+        version = get_datas('chromedriver_version')
+
+        # s'il ne l'est pas :
+        if version is None:
+
+            # on lance le chromedriver pour récupérer son numéro de version
+            version = check_driver()
+            print(f"la version du chromedriver est {version}")
+
+            # on enregistre le numéro de version dans le fichier dédié
+            save_datas('chromedriver_version', version)
+            print("sauvegarde dans le fichier chromedriver_version")
+
+        # si les versions diffèrent :
         if version != chrome_version:
+
+            # on lance un update du chromedriver
             get_driver(chrome_version)
             print("les versions divergent")
+
+    # si le fichier n'existe pas on lance un update du chromedriver
     else:
         get_driver(chrome_version)
         print("on télécharge le chromedriver correspondant à chrome parce qu'aucune version n'a été trouvée")
@@ -48,10 +80,12 @@ def get_version():
 
     # si le premier chemin échoue, on essaie le second
     try:
-        chrome_version = os.listdir(google_path)[0][:2]
+        return os.listdir(google_path)[0][:2]
     except FileNotFoundError:
-        chrome_version = os.listdir(google_path2)[0][:2]
-    return chrome_version
+        try:
+            return os.listdir(google_path2)[0][:2]
+        except FileNotFoundError:
+            print("impossible de trouver le chemin d'accès à chrome")
 
 
 def check_driver():

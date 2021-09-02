@@ -37,13 +37,13 @@ try:
     elem.send_keys("pycon")
     elem.send_keys(Keys.RETURN)
     assert "No results found." not in my_browser.page_source
-    time.sleep(5)
+    time.sleep(2)
 except SessionNotCreatedException:
     print("problème avec la version actuelle du chromedriver...")
 my_browser.close()
 
 # on initialise le driver en mode headless cette fois
-driver = browser(headless=False)
+driver = browser(headless=True)
 
 # on définit l'url
 url = "https://auth.fft.fr/auth/realms/master/protocol/openid-connect/auth?" \
@@ -57,7 +57,7 @@ try:
 
     # on s'assure d'être sur la bonne page
     print(driver.title)
-    # assert "Ten’Up" in driver.title
+    assert "Ten’Up" in driver.title
 
     # on s'identifie pour accéder au compte
     driver.find_element_by_id("username").send_keys(username)
@@ -76,9 +76,10 @@ try:
         '//*[@id="page-header"]/div[2]/div/nav/ul/li[5]/div/div/ul/li[3]/ul/li[3]/a').click()
     result = driver.find_element_by_xpath('//*[@id="block-system-main"]/div/div/div/div[1]').text
     print(result)
-    time.sleep(5)
+    time.sleep(2)
 except SessionNotCreatedException:
     print("problème avec la version actuelle du chromedriver...")
+driver.close()
 
 # TODO : vérifier pourquoi la variable username renvoie bulam dans .env (j'ai dû en changer le nom pour être reconnu)
 # TODO : sur cette base on va pouvoir intégrer le module database pour ensuite lancer des sessions sur Boursorama
