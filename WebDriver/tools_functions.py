@@ -13,14 +13,18 @@ from zipfile import ZipFile
 
 
 def save_datas(my_file, data):
+
     """ fonction qui enregistre les données dans un fichier externe """
+
     with open(my_file, "wb") as file:
         write_data = pickle.Pickler(file)
         write_data.dump(data)
 
 
 def check_isfile(file):
+
     """on vérifie si le chromedriver existe dans le répertoire courant pour en connaître la version"""
+
     chrome_version = get_version()
     # print(f"la version de chrome est {chrome_version}")
     if os.path.isfile(file):
@@ -35,6 +39,7 @@ def check_isfile(file):
 
 
 def get_version():
+
     """récupération du numéro de version du chrome local"""
 
     # je spécifie 2 chemins d'accès possible pour chrome
@@ -57,7 +62,9 @@ def check_driver():
 
 
 def get_driver(current_version):
+
     """on récupère la version du chromedriver compatible avec chrome"""
+
     # on fait une requête pour récupérer le numéro de version du dernier chromedriver
     url = "http://chromedriver.chromium.org/downloads"
 
@@ -117,18 +124,21 @@ def get_driver(current_version):
         print("fichier inexistant : impossible de supprimer 'chromedriver.zip")
 
 
-def close_pop_up(driver):
-    """ on attend l'apparition de la fenêtre des cookies pour la fermer"""
-    try:
-        WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
-    except selenium.common.exceptions.WebDriverException as e:
-        print(e)
-
-
 def browser(headless: bool = False):
+
     """fonction qui configure le driver en mode headless ou visible et qui fournit le path"""
-    # configuration du webdriver
+
     options = Options()
     options.headless = headless  # configuration du driver en mode visible ou headless
     options.page_load_strategy = 'normal'
     return Chrome(executable_path="chromedriver.exe", options=options)
+
+
+def close_pop_up(driver):
+
+    """ on attend l'apparition de la fenêtre des cookies pour la fermer"""
+
+    try:
+        WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
+    except selenium.common.exceptions.WebDriverException as e:
+        print(e)
