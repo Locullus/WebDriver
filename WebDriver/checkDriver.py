@@ -2,6 +2,8 @@
 script qui vérifie si le fichier chromedriver.exe existe dans le répertoire courant et sinon l'installe
 puis lance une session du driver afin de récupérer la liste des tournois où je suis engagé
 
+NOTE : pyppeteer installe chromium ici C:/Users/bulam/AppData/Local/pyppeteer/pyppeteer/local-chromium/588429
+
 """
 
 import os

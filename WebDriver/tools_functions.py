@@ -29,7 +29,7 @@ def get_datas(my_file):
             return get_data.load()
 
     except (FileNotFoundError, EOFError):   # EOFError concerne les fichiers existants mais vides
-        print("fichier n'existe pas")
+        print("ce fichier n'existe pas")
         return None
 
 
@@ -89,10 +89,13 @@ def get_version():
 
 
 def check_driver():
-    with Chrome(executable_path="chromedriver.exe") as driver:
-        if 'browserVersion' in driver.capabilities:
-            return driver.capabilities['browserVersion'].split(".")[0]  # 92
-        return driver.capabilities['version'].split(".")[0]
+    try:
+        with Chrome(executable_path="chromedriver.exe") as driver:
+            if 'browserVersion' in driver.capabilities:
+                return driver.capabilities['browserVersion'].split(".")[0]  # 92
+            return driver.capabilities['version'].split(".")[0]
+    except selenium.common.exceptions.SessionNotCreatedException:
+        print("problème avec le chromedriver.")
 
 
 def get_driver(current_version):
@@ -109,8 +112,11 @@ def get_driver(current_version):
     target = 'class="XqQF9c"'
     link = [row for row in response if target in row]
 
+    # on crée une regex pour s'assurer que ce que l'on récupère est bien un numéro de version
+    regex_version = re.compile(r"\s" + current_version + r"\.[0-9]\.[0-9]{4}\.[0-9]+")
+
     # on itère la liste pour trouver une correspondance avec le numéro de version actuel de chromium
-    last_version = [row for row in link if current_version in row][0]
+    last_version = [row for row in link if re.search(regex_version, row) is not None][0]
 
     # on crée une regex pour en rechercher la première occurence (l'url de la dernière version du chromedriver)
     regex = re.search("https://.+path=[0-9.]+/", last_version).group()
@@ -156,6 +162,10 @@ def get_driver(current_version):
         os.remove('chromedriver.zip')
     else:
         print("fichier inexistant : impossible de supprimer 'chromedriver.zip")
+
+    # on enregistre le nouveau numéro de version dans le fichier dédié
+    save_datas('chromedriver_version', current_version)
+    print("sauvegarde dans le fichier chromedriver_version")
 
 
 def browser(headless: bool = False):
