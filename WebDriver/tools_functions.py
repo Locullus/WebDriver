@@ -58,11 +58,14 @@ def check_isfile(file):
             print("sauvegarde dans le fichier chromedriver_version")
 
         # si les versions diffèrent :
-        if version != chrome_version:
+        elif version != chrome_version:
 
             # on lance un update du chromedriver
             get_driver(chrome_version)
             print("les versions divergent")
+
+        else:
+            print("les versions de chrome et du chromedriver sont compatibles")
 
     # si le fichier n'existe pas on lance un update du chromedriver
     else:
