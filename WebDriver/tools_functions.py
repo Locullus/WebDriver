@@ -13,30 +13,45 @@ from zipfile import ZipFile
 
 
 def save_datas(my_file, data):
+    """
+    fonction qui enregistre les données dans un fichier externe
 
-    """ fonction qui enregistre les données dans un fichier externe """
-
+    @param my_file: a path
+    @type my_file: string
+    @param data: Any
+    @type data: Any
+    """
     with open(my_file, "wb") as file:
         write_data = pickle.Pickler(file)
         write_data.dump(data)
 
 
 def get_datas(my_file):
-    """ fonction qui récupère les données d'un fichier s'il existe et qui le crée sinon """
+    """
+    fonction qui récupère les données d'un fichier s'il existe et qui le crée sinon
+
+    @param my_file: a path
+    @type my_file: string
+    @return: Any
+    @rtype: Any
+    """
     try:
         with open(my_file, "rb") as file:
             get_data = pickle.Unpickler(file)
             return get_data.load()
 
-    except (FileNotFoundError, EOFError):   # EOFError concerne les fichiers existants mais vides
+    except (FileNotFoundError, EOFError):  # EOFError concerne les fichiers existants mais vides
         print("ce fichier n'existe pas")
         return None
 
 
 def check_isfile(file):
+    """
+    on vérifie si le chromedriver existe dans le répertoire courant pour en connaître la version
 
-    """on vérifie si le chromedriver existe dans le répertoire courant pour en connaître la version"""
-
+    @param file: a path
+    @type file: string
+    """
     chrome_version = get_version()
     print(f"la version de chrome est {chrome_version}")
 
@@ -74,9 +89,12 @@ def check_isfile(file):
 
 
 def get_version():
+    """
+    récupération du numéro de version du chrome local
 
-    """récupération du numéro de version du chrome local"""
-
+    @return: version number of the chromedriver
+    @rtype: string
+    """
     # je spécifie 2 chemins d'accès possible pour chrome
     google_path = "C:/Program Files/Google/Chrome/Application"
     google_path2 = "C:/Program Files (x86)/Google/Chrome/Application"
@@ -92,6 +110,12 @@ def get_version():
 
 
 def check_driver():
+    """
+    vérifie le numéro de version du chromedriver installé
+
+    @return: version number of the chromedriver
+    @rtype: string
+    """
     try:
         with Chrome(executable_path="chromedriver.exe") as driver:
             if 'browserVersion' in driver.capabilities:
@@ -102,9 +126,12 @@ def check_driver():
 
 
 def get_driver(current_version):
+    """
+    on récupère la version du chromedriver compatible avec chrome
 
-    """on récupère la version du chromedriver compatible avec chrome"""
-
+    @param current_version: version number of chrome
+    @type current_version: string
+    """
     # on fait une requête pour récupérer le numéro de version du dernier chromedriver
     url = "http://chromedriver.chromium.org/downloads"
 
@@ -171,10 +198,15 @@ def get_driver(current_version):
     print("sauvegarde dans le fichier chromedriver_version")
 
 
-def browser(headless: bool = False):
+def browser(headless=False):
+    """
+    fonction qui configure le driver en mode headless ou visible et qui fournit le path
 
-    """fonction qui configure le driver en mode headless ou visible et qui fournit le path"""
-
+    @param headless: specify headless or non-headless mode
+    @type headless: bool
+    @return: a Webdriver
+    @rtype: object :class Webdriver
+    """
     options = Options()
     options.headless = headless  # configuration du driver en mode visible ou headless
     options.page_load_strategy = 'normal'
@@ -182,9 +214,12 @@ def browser(headless: bool = False):
 
 
 def close_pop_up(driver):
+    """
+    on attend l'apparition de la fenêtre des cookies pour la fermer
 
-    """ on attend l'apparition de la fenêtre des cookies pour la fermer"""
-
+    @param driver: an instance of :class Webdriver
+    @type driver: on object
+    """
     try:
         WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
     except selenium.common.exceptions.WebDriverException as e:
