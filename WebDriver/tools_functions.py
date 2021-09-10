@@ -218,8 +218,8 @@ def close_pop_up(driver):
     """
     on attend l'apparition de la fenêtre des cookies pour la fermer
 
-    @param driver: an instance of :class Webdriver
-    @type driver: on object
+    @param driver: instance of the Webdriver
+    @type: object :class Webdriver
     """
     try:
         WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'popin_tc_privacy_button'))).click()
