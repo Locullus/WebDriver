@@ -153,6 +153,12 @@ def get_driver(current_version):
     regex = re.search("https://.+path=[0-9.]+/", last_version).group()
     print(f"le regex me renvoie {regex}")  # https://chromedriver.storage.googleapis.com/index.html?path=92.0.4515.107/
 
+    # TODO: on peut supprimer la requête faite avec requests-html : il suffit de reconstruire l'url du zip avec le regex
+    # pour cela il suffit de récupérer le seul numéro de version pour l'inclure dans l'url du zip comme ceci :
+    # zipURL = regex.split("=")[1]
+    # url = f"https://chromedriver.storage.googleapis.com/{zipURL}chromedriver_win32.zip"
+    # on peut ainsi supprimer les lignes  162 à 176
+
     # je relance une requête sur l'url regex, cette fois avec le module requests-html qui permet d'exécuter le code JS
     session = HTMLSession()
     response = session.get(regex)
