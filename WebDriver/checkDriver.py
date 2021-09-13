@@ -84,5 +84,5 @@ except SessionNotCreatedException:
 driver.close()
 
 # TODO : vérifier pourquoi la variable username renvoie bulam dans .env (j'ai dû en changer le nom pour être reconnu)
-# TODO : sur cette base on va pouvoir intégrer le module database pour ensuite lancer des sessions sur Boursorama
+# TODO : sur cette base on va pouvoir intégrer le module database pour ensuite lancer des sessions sur les courtiers
 # TODO : on intégrera tout ceci dans une application flask avec une interface graphique correcte
