@@ -3,3 +3,6 @@
 /WebDriver/venv/
 /WebDriver/__pycache__/
 /WebDriver/.env
+.idea
+__pycache__
+
