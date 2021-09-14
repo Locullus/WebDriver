@@ -1,4 +1,5 @@
 /WebDriverUpdate/
-.idea/
-WebDriver/__pycache__/
-.env
+/WebDriver/.idea/
+/WebDriver/venv/
+/WebDriver/__pycache__/
+/WebDriver/.env
