@@ -86,3 +86,6 @@ driver.close()
 # TODO : vérifier pourquoi la variable username renvoie bulam dans .env (j'ai dû en changer le nom pour être reconnu)
 # TODO : sur cette base on va pouvoir intégrer le module database pour ensuite lancer des sessions sur les courtiers
 # TODO : on intégrera tout ceci dans une application flask avec une interface graphique correcte
+# TODO : gérer une nouvelle exception liée à une infection du fichier téléchargé sur le site de google :
+#   urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(10054,
+#  'Une connexion existante a dû être fermée par l’hôte distant', None, 10054, None))
