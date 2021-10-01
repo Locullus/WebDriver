@@ -89,3 +89,5 @@ driver.close()
 # TODO : gérer une nouvelle exception liée à une infection du fichier téléchargé sur le site de google :
 #   urllib3.exceptions.ProtocolError: ('Connection aborted.', ConnectionResetError(10054,
 #  'Une connexion existante a dû être fermée par l’hôte distant', None, 10054, None))
+
+# TODO : développer une automatisation de réservation du site parisTennis pour la résa de court dès 8h du mat à 7 jours
