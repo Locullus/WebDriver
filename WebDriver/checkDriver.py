@@ -75,7 +75,7 @@ try:
     driver.implicitly_wait(2)
 
     driver.find_element_by_xpath(
-        '//*[@id="page-header"]/div[2]/div/nav/ul/li[5]/div/div/ul/li[3]/ul/li[3]/a').click()
+        '//*[@id="page-header"]/div[2]/div/nav/ul/li[5]/div/div/ul/li[3]/ul/li[4]/a').click()
     result = driver.find_element_by_xpath('//*[@id="block-system-main"]/div/div/div/div[1]').text
     print(result)
     time.sleep(2)
