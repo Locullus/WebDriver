@@ -101,10 +101,10 @@ def get_version():
 
     # si le premier chemin échoue, on essaie le second
     try:
-        return os.listdir(google_path)[0][:2]
+        return os.listdir(google_path)[0][:3]
     except FileNotFoundError:
         try:
-            return os.listdir(google_path2)[0][:2]
+            return os.listdir(google_path2)[0][:3]
         except FileNotFoundError:
             print("impossible de trouver le chemin d'accès à chrome")
 
